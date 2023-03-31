@@ -6,7 +6,6 @@ on:
       - '**'
     paths:
       - 'Docker/*'
-
 jobs:
   build:
     name: build and push
