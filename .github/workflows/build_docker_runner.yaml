@@ -1,0 +1,27 @@
+name: build_push_img_runner
+
+on:
+  pull_request:
+    branches:
+      - '**'
+    paths:
+      - 'Docker/*'
+
+jobs:
+  build:
+    name: build and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3+
+        # Login via Azure CLI
+      - name: 'Login via Azure CLI'
+        uses:  azure/login@v1
+        with:
+          creds: '{"clientId":"${{secrets.CLIENT_ID}}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+      - name: 'Build img'
+        run: |
+            cd ./Docker
+            docker login troyrsaweu001.azurecr.io
+            docker build -t runner-001 .
+            docker tag runner-001 troyrsaweu001.azurecr.io/runner-001 
+            docker push troyrsaweu001.azurecr.io/runner-001
