@@ -1,12 +1,11 @@
 name: build_push_img_runner
 
 on:
-  pull_request:
+  push:
     branches:
       - '**'
     paths:
       - 'Docker/*'
-
 jobs:
   build:
     name: build and push
