@@ -5,7 +5,7 @@ TOKEN=$(curl -X POST -H "Authorization: Bearer  $2" \
     https://api.github.com/orgs/$1/actions/runners/registration-token \
     | jq -r '.token')
     
-
+    
 ./config.sh remove --token $TOKEN
 ./config.sh --url https://github.com/$1 --token $TOKEN --name $3 --labels docker  --replace
 ./run.sh

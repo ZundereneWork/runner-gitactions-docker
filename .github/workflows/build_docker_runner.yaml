@@ -17,10 +17,13 @@ jobs:
         uses:  azure/login@v1
         with:
           creds: '{"clientId":"${{secrets.CLIENT_ID}}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
-      - name: 'Build img'
-        run: |
-            cd ./Docker
-            docker login troyrsaweu001.azurecr.io
-            docker build -t runner-001 .
-            docker tag runner-001 troyrsaweu001.azurecr.io/runner-001 
-            docker push troyrsaweu001.azurecr.io/runner-001
+      - name: 'Build and push image'
+        uses: azure/docker-login@v1
+        with:
+            login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
+            username:     ${{ secrets.REGISTRY_USERNAME }}
+            password:     ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+            docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} .
+            docker tag  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
+            docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
