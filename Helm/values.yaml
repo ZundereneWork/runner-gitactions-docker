@@ -36,9 +36,9 @@ resources:
     cpu: "1"
 
 ghr:
-  ORG: __ORG__
-  TOKEN: __TOKEN__
-  NAME: __NAME__
+  ORG: ""
+  TOKEN: ""
+  NAME: ""
 
 autoscaling:
   enabled: true

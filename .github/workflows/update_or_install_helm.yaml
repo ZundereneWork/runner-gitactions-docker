@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: build_cocker_runner
+
+# Controls when the workflow will run
+on:
+    push:
+      branches:
+        - '**'
+      paths:
+        - 'Helm/*'
+
+jobs:
+  deploymenAgentHelm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v3
+      
+      - name: 'Login via Azure CLI'
+        uses:  azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create Helm chart
+        run: |
+          cd ./Helm
+          helm package .
+          
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: troyrgwest001
+          cluster-name: troy-aks-west-1
+          
+      - name: Deploy via Helm
+        run: |
+          cd ./Helm
+          if helm status agentrunner -n agentrunnerpool; then
+            helm upgrade agentrunner  -n agentrunnerpool ghr-0.0.1.tgz --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.GITHUB_TOKEN }} --set ghr.ORG=ZundereneWork  --set ghr.NAME=runner-001
+          else 
+            helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz  --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.GITHUB_TOKEN }} --set ghr.ORG=ZundereneWork --set ghr.NAME=runner-001
+          fi
+
+       
