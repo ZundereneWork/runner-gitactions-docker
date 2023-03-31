@@ -39,9 +39,6 @@ RUN groupadd --gid $USER_GID $USERNAME && \
 
 # Set the default user to the non-root user
 
-ENV ORG=""
-ENV TOKEN=""
-ENV NAME=""
 
 WORKDIR /runner
 RUN curl -o actions-runner-linux-x64-2.298.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz && \
@@ -51,4 +48,4 @@ RUN curl -o actions-runner-linux-x64-2.298.0.tar.gz -L https://github.com/action
 COPY ./setup.sh /runner/
 
 USER $USERNAME
-ENTRYPOINT ["/runner/setup.sh", ORG , TOKEN, NAME]
+ENTRYPOINT ["/runner/setup.sh", ${ORG} , ${TOKEN}, ${NAME}]
