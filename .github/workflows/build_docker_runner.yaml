@@ -6,6 +6,7 @@ on:
       - '**'
     paths:
       - 'Docker/*'
+      - '.github/**'
 jobs:
   build:
     name: build and push
@@ -24,6 +25,7 @@ jobs:
             username:     ${{ secrets.REGISTRY_USERNAME }}
             password:     ${{ secrets.REGISTRY_PASSWORD }}
       - run: |
+            cd ./Docker
             docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} .
             docker tag  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
             docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
