@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Configure the runner to connect to a GitHub organization
 TOKEN=$(curl -X POST -H "Authorization: Bearer  $2" \
     -H "Accept: application/vnd.github.v3+json" \
