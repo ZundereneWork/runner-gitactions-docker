@@ -1,7 +1,7 @@
 name: build_push_img_runner
 
 on:
-  commit_comment:
+  push:
     branches:
       - '**'
     paths:
