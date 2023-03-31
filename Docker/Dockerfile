@@ -48,4 +48,4 @@ RUN curl -o actions-runner-linux-x64-2.298.0.tar.gz -L https://github.com/action
 COPY ./setup.sh /runner/
 
 USER $USERNAME
-ENTRYPOINT ["/runner/setup.sh", ${ORG} , ${TOKEN}, ${NAME}]
+ENTRYPOINT ["/runner/setup.sh"]
