@@ -30,28 +30,27 @@ RUN apt-get install -y python3 python3-pip && \
 
 # Instalar el runner de GitActions
 RUN mkdir /actions-runner && cd /actions-runner && \
-    curl -o actions-runner-linux-x64.tar.gz -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz && \
-    tar xzf actions-runner-linux-x64.tar.gz && \
-    rm -f actions-runner-linux-x64.tar.gz && \
+    curl -o actions-runner-linux-x64-2.303.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.303.0/actions-runner-linux-x64-2.303.0.tar.gz && \
+    tar xzf actions-runner-linux-x64-2.303.0.tar.gz && \
+    rm -f actions-runner-linux-x64-2.303.0.tar.gz && \
     ./bin/installdependencies.sh
 
-# Instalar Docker
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 
+ADD entrypoint.sh  /actions-runner/entrypoint.sh
 
-# Copiar el script de inicio
-COPY entrypoint.sh /actions-runner/entrypoint.sh
 RUN chmod +x /actions-runner/entrypoint.sh
+RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 
 # Configurar usuario no-root
-RUN useradd -m runner && \
-    chown -R runner:runner /actions-runner
+#RUN useradd -m runner && \
+#    chown -R runner:runner /actions-runner
 
 # Cambiar al usuario no-root
-USER runner
+#USER runner
 
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
 
+
 # Ejecutar el script de inicio
-ENTRYPOINT ["/actions-runner/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
