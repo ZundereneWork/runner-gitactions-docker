@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORG="ZundereneWork"
-TOKEN="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"
+TOKEN="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"
 NAME="HOLA"
 echo $ORG
 echo $TOKEN
