@@ -39,9 +39,9 @@ jobs:
         run: |
           cd ./Helm
           if helm status agentrunner -n agentrunnerpool; then
-            helm upgrade agentrunner  -n agentrunnerpool ghr-0.0.1.tgz --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork  --set ghr.NAME=runner-001
+            helm upgrade agentrunner  -n agentrunnerpool ghr-0.0.1.tgz --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork  --set ghr.NAME=runner-autohoster-001
           else 
-            helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz  --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork --set ghr.NAME=runner-001
+            helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz  --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=main --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork --set ghr.NAME=runner-autohoster-001
           fi
 
 
