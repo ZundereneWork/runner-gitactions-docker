@@ -7,4 +7,3 @@ metadata:
 data:
   ORG: {{ .Values.ghr.ORG }}
   NAME: {{ .Values.ghr.NAME }}
-  TOKEN: {{ .Values.ghr.TOKEN }}
