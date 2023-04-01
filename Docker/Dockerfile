@@ -27,6 +27,20 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 # Install Python
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
+    
+# Install powerShell and Az cli
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb |  bash
+
+RUN wget -q 'https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb'
+RUN dpkg -i packages-microsoft-prod.deb
+RUN apt-get update 
+RUN apt-get install -y powershell
+
+RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -Force}" \
+    && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
+    && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}" \ 
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/bin/python3 /usr/bin/python
 
 # Instalar el runner de GitActions
 RUN mkdir /actions-runner && cd /actions-runner && \
