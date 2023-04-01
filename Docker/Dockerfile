@@ -40,12 +40,12 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 
 
 # Copiar el script de inicio
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY entrypoint.sh /actions-runner/entrypoint.sh
+RUN chmod +x /actions-runner/entrypoint.sh
 
 # Configurar usuario no-root
 RUN useradd -m runner && \
-    chown -R runner:runner /actions-runner
+    chown -R runner:runner /actions-runner/entrypoint.sh
 
 # Cambiar al usuario no-root
 USER runner
@@ -54,4 +54,4 @@ USER runner
 WORKDIR /actions-runner
 
 # Ejecutar el script de inicio
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/actions-runner/entrypoint.sh"]
