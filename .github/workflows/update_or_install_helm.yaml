@@ -9,6 +9,7 @@ on:
         - '**'
       paths:
         - 'Helm/*'
+        - '.github/*/update_or_install_helm.yaml'
     workflow_dispatch:
 
 jobs:

@@ -6,7 +6,7 @@ on:
       - '**'
     paths:
       - 'Docker/*'
-      - '.github/**'
+      - '.github/*/build_docker_runner.yaml'
 jobs:
   build:
     name: build and push
