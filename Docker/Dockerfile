@@ -42,11 +42,11 @@ RUN chmod +x /actions-runner/entrypoint.sh
 RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 
 # Configurar usuario no-root
-#RUN useradd -m runner && \
-#    chown -R runner:runner /actions-runner
+RUN useradd -m runner && \
+    chown -R runner:runner /actions-runner
 
 # Cambiar al usuario no-root
-#USER runner
+USER runner
 
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner

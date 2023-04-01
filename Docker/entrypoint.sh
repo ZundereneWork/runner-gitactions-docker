@@ -9,5 +9,5 @@ T=$(curl -X POST \
   --header 'User-Agent: Thunder Client (https://www.thunderclient.com)' \
   --header "Authorization: Bearer $TOKEN " | jq -r '.token')
 echo $T
-./config.sh --url "https://github.com/$ORG" --token $T --name $NAME --labels docker  --replace
+./config.sh --url https://github.com/${ORG} --token ${T} --name ${NAME} --labels docker  --replace
 ./run.sh
