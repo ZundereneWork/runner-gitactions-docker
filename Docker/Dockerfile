@@ -28,24 +28,30 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
 
-# Create a non-root user and add it to the sudo group
-ARG USERNAME=runneruser
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
-RUN groupadd --gid $USER_GID $USERNAME && \
-    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME && \
-    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME
+# Instalar el runner de GitActions
+RUN mkdir /actions-runner && cd /actions-runner && \
+    curl -o actions-runner-linux-x64.tar.gz -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz && \
+    tar xzf actions-runner-linux-x64.tar.gz && \
+    rm -f actions-runner-linux-x64.tar.gz && \
+    ./bin/installdependencies.sh
 
-# Set the default user to the non-root user
+# Instalar Docker
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
 
 
-WORKDIR /runner
-RUN curl -o actions-runner-linux-x64-2.298.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.298.0/actions-runner-linux-x64-2.298.0.tar.gz && \
-    tar xzf ./actions-runner-linux-x64-2.298.0.tar.gz && \
-    rm -f actions-runner-linux-x64-2.298.0.tar.gz
+# Copiar el script de inicio
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-COPY ./setup.sh /runner/
+# Configurar usuario no-root
+RUN useradd -m runner && \
+    chown -R runner:runner /actions-runner
 
-USER $USERNAME
-ENTRYPOINT ["/runner/setup.sh"]
+# Cambiar al usuario no-root
+USER runner
+
+# Establecer el directorio de trabajo
+WORKDIR /actions-runner
+
+# Ejecutar el script de inicio
+ENTRYPOINT ["/entrypoint.sh"]
