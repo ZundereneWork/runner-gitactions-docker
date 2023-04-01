@@ -45,7 +45,7 @@ RUN chmod +x /actions-runner/entrypoint.sh
 
 # Configurar usuario no-root
 RUN useradd -m runner && \
-    chown -R runner:runner /actions-runner/entrypoint.sh
+    chown -R runner:runner /actions-runner
 
 # Cambiar al usuario no-root
 USER runner
