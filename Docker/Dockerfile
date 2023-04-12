@@ -27,7 +27,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 # Install Python
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
-    
+
+# Install Helm
+RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
 # Install powerShell and Az cli
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb |  bash
 

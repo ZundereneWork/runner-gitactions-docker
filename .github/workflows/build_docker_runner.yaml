@@ -13,13 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      
         # Login via Azure CLI
       - name: 'Login via Azure CLI'
         uses:  azure/login@v1
         with:
           creds: '{"clientId":"${{secrets.CLIENT_ID}}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
       - name: 'Build and push image'
-        uses: azure/docker-login@v1
+        uses:  azure/docker-login@v1
         with:
             login-server: ${{ vars.REGISTRY_LOGIN_SERVER }}
             username:     ${{ secrets.REGISTRY_USERNAME }}
@@ -27,5 +28,5 @@ jobs:
       - run: |
             cd ./Docker
             docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} .
-            docker tag  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
+            docker tag   ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
             docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
