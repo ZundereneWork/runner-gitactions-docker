@@ -28,12 +28,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
 
-# Install Docker
-ENV DOCKER_CHANNEL stable
-ENV DOCKER_VERSION 17.03.1-ce
-ENV DOCKER_API_VERSION 1.27
-RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
-  | tar -xzC /usr/local/bin --strip=1 docker/docker
+
 
 # Install Helm
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -71,6 +66,15 @@ RUN useradd -m runner && \
 
 # Cambiar al usuario no-root
 USER runner
+
+
+# Install Docker
+ENV DOCKER_CHANNEL stable
+ENV DOCKER_VERSION 17.03.1-ce
+ENV DOCKER_API_VERSION 1.27
+RUN curl -fsSL "https://download.docker.com/linux/static/${DOCKER_CHANNEL}/x86_64/docker-${DOCKER_VERSION}.tgz" \
+  | tar -xzC /usr/local/bin --strip=1 docker/docker
+  
 
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
