@@ -64,7 +64,7 @@ RUN useradd -m runner && \
     chown -R runner:runner /actions-runner
 
 # Instala Docker dentro del contenedor
-RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+#RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN groupadd docker
 RUN usermod -aG docker runner
 RUN newgrp docker
