@@ -70,6 +70,7 @@ RUN newgrp docker
 
 RUN systemctl enable docker.service
 RUN systemctl enable containerd.service
+RUN systemctl start docker
 
 # Cambiar al usuario no-root
 USER runner
