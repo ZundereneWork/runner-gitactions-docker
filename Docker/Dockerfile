@@ -68,6 +68,9 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugi
 RUN usermod -aG docker runner
 RUN newgrp docker
 
+RUN systemctl enable docker.service
+RUN systemctl enable containerd.service
+
 # Cambiar al usuario no-root
 USER runner
 
