@@ -28,10 +28,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
 
-# Instala Docker dentro del contenedor
-RUN curl -fsSL https://get.docker.com -o get-docker.sh \
-    && sh get-docker.sh
-
 
 # Install Helm
 RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -66,6 +62,12 @@ RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 # Configurar usuario no-root
 RUN useradd -m runner && \
     chown -R runner:runner /actions-runner
+
+# Instala Docker dentro del contenedor
+RUN apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+RUN groupadd docker
+RUN usermod -aG docker runner
+RUN newgrp docker
 
 # Cambiar al usuario no-root
 USER runner
