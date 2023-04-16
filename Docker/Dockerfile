@@ -60,10 +60,8 @@ RUN useradd -m runner && \
     chown -R runner:runner /actions-runner
 
 # Agregar grupo y usuario 'docker'
-RUN groupadd -g 999 docker && useradd -r -u 999 -g docker docker
+#RUN groupadd -g 999 docker && useradd -r -u 999 -g docker docker
 
-# Dar permisos al usuario 'docker' para ejecutar Docker sin sudo
-RUN usermod -aG docker docker
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
