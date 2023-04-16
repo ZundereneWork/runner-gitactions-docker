@@ -64,13 +64,9 @@ RUN useradd -m runner && \
     chown -R runner:runner /actions-runner
 
 # Instala Docker dentro del contenedor
-RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 RUN usermod -aG docker runner
 RUN newgrp docker
 
-RUN systemctl enable docker.service
-RUN systemctl enable containerd.service
-RUN systemctl start docker
 
 # Cambiar al usuario no-root
 USER runner
