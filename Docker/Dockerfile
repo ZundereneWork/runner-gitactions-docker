@@ -7,14 +7,6 @@ RUN apt-get update && apt-get install -y \
     sudo \
     openssh-server
 
-# Install Docker CLI
-RUN apt-get update && apt-get install -y \
-    apt-transport-https ca-certificates   \
-    software-properties-common \
-    && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -  \
-    &&  add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" \
-    && apt update -y && apt-cache  policy  -y docker-ce && apt install -y docker-ce && systemctl status docker
-
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
@@ -23,6 +15,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && \
 # Install Python
 RUN apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
+
+# Instalar dependencias para Docker
+RUN apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+# Descargar e instalar Docker
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get update && apt-get install -y docker-ce
 
 
 # Install Helm
@@ -59,9 +59,14 @@ RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 RUN useradd -m runner && \
     chown -R runner:runner /actions-runner
 
+# Agregar grupo y usuario 'docker'
+RUN groupadd -g 999 docker && useradd -r -u 999 -g docker docker
+
+# Dar permisos al usuario 'docker' para ejecutar Docker sin sudo
+RUN usermod -aG docker docker
+
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-RUN groupadd docker
 RUN usermod -aG docker runner
 RUN newgrp docker
 
