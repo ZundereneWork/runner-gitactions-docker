@@ -12,10 +12,10 @@ on:
         - '.github/*/update_or_install_helm.yaml'
     workflow_dispatch:
 
-    workflow_run:
-      workflows: [build_push_img_runner]
-      types:
-        - completed
+    #workflow_run:
+    #  workflows: [build_push_img_runner]
+    #  types:
+    #    - completed
 
 jobs:
   deploymenAgentHelm:

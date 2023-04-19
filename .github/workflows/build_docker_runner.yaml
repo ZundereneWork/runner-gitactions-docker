@@ -30,3 +30,23 @@ jobs:
             docker build -t  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} .
             docker tag   ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }}  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
             docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:${{ github.run_number }} && docker push  ${{ vars.REGISTRY_LOGIN_SERVER }}/agentrunner:main
+      - name: Create Helm chart
+        run: |
+          cd ./Helm
+          helm package .
+        
+      - name: AKS set context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: '{"clientId":"${{secrets.CLIENT_ID}}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+          resource-group: troyrgwest001
+          cluster-name: troy-aks-west-1
+          
+      - name: Deploy via Helm
+        run: |
+          cd ./Helm
+          if helm status agentrunner -n agentrunnerpool; then
+            helm upgrade agentrunner  -n agentrunnerpool ghr-0.0.1.tgz --force  --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=${{ github.run_number }} --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork  --set ghr.NAME=runner-autohoster-001
+          else 
+            helm install agentrunner -n agentrunnerpool  ghr-0.0.1.tgz --force  --set image.repository=troyrsaweu001.azurecr.io/agentrunner --set image.tag=${{ github.run_number }} --set ghr.TOKEN=${{ secrets.TOKENGIT }} --set ghr.ORG=ZundereneWork --set ghr.NAME=runner-autohoster-001
+          fi

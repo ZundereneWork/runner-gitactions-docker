@@ -65,11 +65,11 @@ RUN useradd -m runner && \
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-#RUN usermod -aG docker runner
-#RUN newgrp docker
+RUN usermod -aG docker runner
+RUN newgrp docker
 
 # Cambiar al usuario no-root
-#USER runner
+USER runner
 
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
