@@ -68,12 +68,10 @@ RUN useradd -m runner && \
 RUN usermod -aG docker runner
 RUN newgrp docker
 RUN usermod -aG docker runner
-RUN sudo dockerd
 
 # Cambiar al usuario no-root
-USER runner
+USER docker
 
-ENV DOCKER_HOST=unix:///run/user/1001/docker.sock
 
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
