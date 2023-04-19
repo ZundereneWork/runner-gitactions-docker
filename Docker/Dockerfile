@@ -68,7 +68,7 @@ RUN useradd -m runner && \
 RUN usermod -aG docker runner
 RUN newgrp docker
 RUN usermod -aG docker runner
-RUN dockerd
+RUN sudo dockerd
 
 # Cambiar al usuario no-root
 USER runner
