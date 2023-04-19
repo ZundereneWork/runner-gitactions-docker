@@ -71,6 +71,8 @@ RUN newgrp docker
 # Cambiar al usuario no-root
 USER runner
 
+ENV DOCKER_HOST=unix:///run/user/1001/docker.sock
+
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
 
