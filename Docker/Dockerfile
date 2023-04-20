@@ -70,7 +70,7 @@ RUN newgrp docker
 RUN usermod -aG docker runner
 
 # Cambiar al usuario no-root
-USER docker
+USER runner
 
 
 # Establecer el directorio de trabajo
