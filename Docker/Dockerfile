@@ -58,7 +58,7 @@ RUN useradd -m runner && \
 
 # Agregar grupo y usuario 'docker'
 #RUN groupadd -g 999 docker && useradd -r -u 999 -g docker docker
-
+RUN chmod 666 /var/run/docker.sock
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
