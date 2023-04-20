@@ -5,7 +5,9 @@ RUN apt-get update && apt-get install -y \
     git \
     jq \
     sudo \
-    openssh-server
+    openssh-server \
+    docker.io \
+    docker-compose 
 
 
 # Install Node.js
@@ -18,11 +20,6 @@ RUN apt-get install -y python3 python3-pip && \
 
 # Instalar dependencias para Docker
 RUN apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-
-# Descargar e instalar Docker
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-RUN apt-get update && apt-get install -y docker-ce
 
 
 # Install Helm
@@ -65,8 +62,6 @@ RUN useradd -m runner && \
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-RUN usermod -aG docker runner
-RUN newgrp docker
 RUN usermod -aG docker runner
 
 # Cambiar al usuario no-root
