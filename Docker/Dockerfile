@@ -106,7 +106,7 @@ RUN apt-get install -y powershell
 
 #Instalar docker
 RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-RUN sudo service docker start
+#RUN sudo service docker start
 
 RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
