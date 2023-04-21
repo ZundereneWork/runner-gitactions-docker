@@ -144,4 +144,4 @@ USER runner
 WORKDIR /actions-runner
 
 # Ejecutar el script de inicio
-ENTRYPOINT ["sudo service docker start","./entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

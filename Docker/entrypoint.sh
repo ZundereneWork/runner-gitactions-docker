@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo service docker start
+
 # Configure the runner to connect to a GitHub organization
 T=$(curl -X POST \
   "https://api.github.com/orgs/$ORG/actions/runners/registration-token" \
