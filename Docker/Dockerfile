@@ -1,7 +1,7 @@
-FROM ubuntu:latest
+#FROM ubuntu:latest
 
 FROM ubuntu:focal
-LABEL maintainer="myoung34@my.apsu.edu"
+
 
 ARG DUMB_INIT_VERSION="1.2.2"
 ARG GIT_CORE_PPA_KEY="A1715D88E1DF1F24"
@@ -104,6 +104,10 @@ RUN dpkg -i packages-microsoft-prod.deb
 RUN apt-get update 
 RUN apt-get install -y powershell
 
+#Instalar docker
+RUN sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+RUN sudo service docker start
+
 RUN pwsh -command "& {Install-Module -Name Az -AllowClobber -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Pester -Scope AllUsers -Force}" \
     && pwsh -command "& {Install-Module -Name Az.Subscription -Scope AllUsers -AllowPrerelease -Force}" \ 
@@ -119,7 +123,6 @@ RUN mkdir /actions-runner && cd /actions-runner && \
 
 
 ADD entrypoint.sh  /actions-runner/entrypoint.sh
-
 RUN chmod +x /actions-runner/entrypoint.sh
 RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 
@@ -132,15 +135,13 @@ RUN chown -R runner:runner /actions-runner
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-RUN usermod -aG docker runner
+#RUN usermod -aG docker runner
 
 # Cambiar al usuario no-root
 USER runner
 
-
 # Establecer el directorio de trabajo
 WORKDIR /actions-runner
-
 
 # Ejecutar el script de inicio
 ENTRYPOINT ["./entrypoint.sh"]
