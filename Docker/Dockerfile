@@ -124,12 +124,11 @@ RUN chmod +x /actions-runner/entrypoint.sh
 RUN chown -R 1001:123 /actions-runner/entrypoint.sh
 
 # Configurar usuario no-root
-RUN useradd -m runner && \
-    chown -R runner:runner /actions-runner
+RUN chown -R runner:runner /actions-runner
 
 # Agregar grupo y usuario 'docker'
 #RUN groupadd -g 999 docker && useradd -r -u 999 -g docker docker
-RUN chmod 666 /var/run/docker.sock
+#RUN chmod 666 /var/run/docker.sock
 
 # Instala Docker dentro del contenedor
 #RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
